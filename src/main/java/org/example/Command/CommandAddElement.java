@@ -44,6 +44,7 @@ private final WorkerRepository workerRepository;
                 result = "interactive";
 
             } else {
+                this.newWorker.setCreator(ClientConnection.getNameClient(client));
                 workerRepository.save(this.newWorker, client);
                 Collection collection = null;
                 try {

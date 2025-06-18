@@ -184,6 +184,7 @@ public class WorkerRepositoryJdbc implements WorkerRepository {
 
         for (var record : result) {
             // Извлекаем данные из записи
+            String creator = record.get("login_user", String.class);
             long id = record.get("id", Long.class);
             String name = record.get("name", String.class);
             int x = record.get("coordinates_x", Integer.class);
@@ -200,7 +201,7 @@ public class WorkerRepositoryJdbc implements WorkerRepository {
             Organization organization = new Organization(organizationName, organizationAnnual, organizationType);
 
 
-            Worker worker = new Worker(id, name, coordinates, creationDate, salary,
+            Worker worker = new Worker(creator, id, name, coordinates, creationDate, salary,
                     startDate, endDate, position, organization);
 
             workers.add(worker);

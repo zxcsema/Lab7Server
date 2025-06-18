@@ -2,6 +2,7 @@ package org.example.Handler;
 import java.io.IOException;
 import java.nio.channels.SocketChannel;
 import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
@@ -13,11 +14,15 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.example.ClientAction.ClientConnection;
 import org.example.ClientAction.ClientSession;
+import org.example.Collection.Collection;
+import org.example.CollectionUpdate.CollectionUpdate;
 import org.example.Command.*;
 import org.example.Config.BeanStorage;
 import org.example.DateBase.ConnectionDB;
 import org.example.Entites.Worker;
 import org.example.Response.Registration;
+import org.example.Send.Sender;
+import org.example.UpdaterCollection;
 
 public class ObjectHandler {
     private final Map<Class<?>, BiConsumer<SocketChannel, Object>> handlers = new HashMap<>();
@@ -50,15 +55,24 @@ public class ObjectHandler {
         handlers.put(Worker.class, (client, obj) -> {
             Worker worker = (Worker) obj;
             workerCommandHandler.handleCommand(lastCommandName, worker, client);
+            UpdaterCollection.update();
         });
 
         handlers.put(Registration.class, (client, obj) -> {
             Registration registration = (Registration) obj;
             try {
                 registrationHandler.reg(registration, client);
+            } catch (IOException | NoSuchAlgorithmException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        handlers.put(CollectionUpdate.class, (client, obj) -> {
+            try {
+                new UpdateCollectionHandler().sendSerializedObjectAsync(client);
             } catch (IOException e) {
                 throw new RuntimeException(e);
-            } catch (NoSuchAlgorithmException e) {
+            } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
         });

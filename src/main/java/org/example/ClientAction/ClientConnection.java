@@ -1,8 +1,11 @@
 package org.example.ClientAction;
 
 import java.nio.channels.SocketChannel;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentSkipListSet;
 
 public class ClientConnection {
     private static boolean hasDiscard  =false;
@@ -12,15 +15,24 @@ public class ClientConnection {
     private static final Map<SocketChannel, Boolean> sessionsHasDiscrad = new ConcurrentHashMap<>();
     private static final Map<SocketChannel, Boolean> sessionsMode = new ConcurrentHashMap<>();
 
+    public static boolean isHasDiscard() {
+        return hasDiscard;
+    }
+
+    private static final Set<SocketChannel> sosal = new HashSet<>();
 
     public static void set(SocketChannel socket) {
         socketChannel = socket;
     }
 
-    public static SocketChannel get() {
-        return socketChannel;
+    public static Set<SocketChannel> getSet() {
+        return sosal;
     }
 
+
+    public static SocketChannel get(){
+        return socketChannel;
+    }
     public static boolean getHasDiscard(){
 
         return hasDiscard;
@@ -51,6 +63,7 @@ public class ClientConnection {
     public static void registerClient(SocketChannel socketChannel) {
         sessionsMode.put(socketChannel, false);
         sessions.put(socketChannel, new ClientSession());
+        sosal.add(socketChannel);
     }
 
     public static void registerNameClient(SocketChannel socketChannel, String login) {

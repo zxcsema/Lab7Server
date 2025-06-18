@@ -8,6 +8,7 @@ import java.nio.channels.SocketChannel;
 
 public class Sender {
     public   <T> void sendSerializedObject(SocketChannel client, T message) throws IOException {
+        System.out.println(message);
         try {
             byte[] data = Serializer.serialize(message);
 

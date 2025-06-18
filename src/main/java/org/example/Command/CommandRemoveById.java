@@ -2,8 +2,10 @@ package org.example.Command;
 
 import org.example.ClientAction.ClientConnection;
 import org.example.Collection.Collection;
+import org.example.CollectionUpdate.CollectionUpdate;
 import org.example.DateBase.WorkerRepository;
 import org.example.Entites.Worker;
+import org.example.UpdaterCollection;
 import org.postgresql.gss.GSSOutputStream;
 import org.w3c.dom.ls.LSOutput;
 
@@ -53,6 +55,7 @@ private  final  WorkerRepository workerRepository;
                     break;
                 }
             }
+            UpdaterCollection.update();
             result = "Worker с id " + id + " успешно удалён.";
         } else {
             result = "Ошибка при удалении Worker с id " + id + " из базы.";

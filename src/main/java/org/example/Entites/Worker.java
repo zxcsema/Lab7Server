@@ -9,6 +9,12 @@ import java.time.LocalDateTime;
 public class Worker implements Comparable<Worker>, Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
+
+    public void setCreator(String creator) {
+        this.creator = creator;
+    }
+
+    private  String creator;
     private Long id;
     private final String name;
     private final Coordinates coordinates;
@@ -19,7 +25,7 @@ public class Worker implements Comparable<Worker>, Serializable {
     private final Position position;
     private Organization organization;
 
-    public Worker(String name, Coordinates coordinates, double salary, LocalDateTime startDate,
+    public Worker(String creator, String name, Coordinates coordinates, double salary, LocalDateTime startDate,
                   LocalDateTime endDate, Position position, Organization organization) {
         if (name == null || name.isEmpty()) throw new IllegalArgumentException("Имя не может быть пустым или null");
         if (coordinates == null) throw new IllegalArgumentException("Координаты не могут быть null");
@@ -29,6 +35,7 @@ public class Worker implements Comparable<Worker>, Serializable {
         if (startDate == null) throw new IllegalArgumentException("Дата начала не может быть null");
         if (position == null) throw new IllegalArgumentException("Должность не может быть null");
         if (organization == null) throw new IllegalArgumentException("Организация не может быть null");
+        this.creator = creator;
         this.name = name;
         this.coordinates = coordinates;
         this.creationDate = LocalDateTime.now();
@@ -39,7 +46,7 @@ public class Worker implements Comparable<Worker>, Serializable {
         this.organization = organization;
     }
 
-    public Worker(long id ,String name, Coordinates coordinates, double salary, LocalDateTime startDate,
+    public Worker(String creator,long id ,String name, Coordinates coordinates, double salary, LocalDateTime startDate,
                   LocalDateTime endDate, Position position, Organization organization) {
         if (name == null || name.isEmpty()) throw new IllegalArgumentException("Имя не может быть пустым или null");
         if (coordinates == null) throw new IllegalArgumentException("Координаты не могут быть null");
@@ -48,6 +55,7 @@ public class Worker implements Comparable<Worker>, Serializable {
         }
         if (startDate == null) throw new IllegalArgumentException("Дата начала не может быть null");
         if (position == null) throw new IllegalArgumentException("Должность не может быть null");
+        this.creator = creator;
         if (organization == null) throw new IllegalArgumentException("Организация не может быть null");
         this.id = id;
         this.name = name;
@@ -60,7 +68,7 @@ public class Worker implements Comparable<Worker>, Serializable {
         this.organization = organization;
     }
 
-    public Worker(Long id, String name, Coordinates coordinates, LocalDateTime creationDate ,double salary, LocalDateTime startDate,
+    public Worker(String creator,Long id, String name, Coordinates coordinates, LocalDateTime creationDate ,double salary, LocalDateTime startDate,
                   LocalDateTime endDate, Position position, Organization organization) {
         if (name == null || name.isEmpty()) throw new IllegalArgumentException("Имя не может быть пустым или null");
         if (coordinates == null) throw new IllegalArgumentException("Координаты не могут быть null");
@@ -68,6 +76,7 @@ public class Worker implements Comparable<Worker>, Serializable {
         if (startDate == null) throw new IllegalArgumentException("Дата начала не может быть null");
         if (position == null) throw new IllegalArgumentException("Должность не может быть null");
         if (organization == null) throw new IllegalArgumentException("Организация не может быть null");
+        this.creator = creator;
 
         this.id = id;
         this.name = name;
@@ -160,5 +169,8 @@ public class Worker implements Comparable<Worker>, Serializable {
         return false;
     }
 
+    public String getCreator() {
+        return creator;
+    }
 }
 

@@ -3,6 +3,7 @@ package org.example.Reader;
 import org.example.ClientAction.ClientShutdown;
 
 import java.io.IOException;
+import java.net.SocketException;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 import java.sql.SQLException;
@@ -17,7 +18,13 @@ public class SocketObjectReader {
     public byte[] readSerializedObject(SocketChannel client) throws IOException, SQLException, ClassNotFoundException {
         ByteBuffer sizeBuffer = ByteBuffer.allocate(4);
         sizeBuffer.clear();
-        int bytesRead = client.read(sizeBuffer);
+        int bytesRead = -1;
+        try{
+            bytesRead = client.read(sizeBuffer);
+
+        }catch (SocketException e){
+            e.printStackTrace();
+        }
         if (bytesRead == -1 && !client.isOpen()) {
             clientShutdown.clientShutdown(client);
             return null;

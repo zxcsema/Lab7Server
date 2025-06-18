@@ -7,6 +7,7 @@ import org.example.Entites.*;
 import org.jooq.DSLContext;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,7 +18,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class Collection {
+public class Collection implements Serializable {
     private static Collection instance;
     private LinkedList<Worker> collection;
     private final Date initializationDate;

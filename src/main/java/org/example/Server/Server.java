@@ -68,6 +68,7 @@ public class Server {
                     client.configureBlocking(false);
                     client.register(selector, SelectionKey.OP_READ);
                     ClientConnection.registerClient(client);
+                    new Sender().sendSerializedObject(client , Collection.getInstance().getAll());
                     Collection.getInstance();
                     System.out.println("Новое подключение: " + client.getRemoteAddress());
                 } else if (key.isReadable()) {
